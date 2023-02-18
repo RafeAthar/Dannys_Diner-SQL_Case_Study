@@ -23,6 +23,7 @@ create view xmembers as select * from members;
 create view xmenu as select * from menu;
 create view xsxmenuales as select * from sales;
 
+
 -- What is the total amount each customer spent at the restaurant?
 with cust_sales as (
 	select * 
@@ -37,6 +38,7 @@ select customer_id, count(distinct order_date) as visit_days
 from sales
 group by customer_id;
 
+
 -- What was the first item from the menu purchased by each customer?
 select s.customer_id, m.product_name as first_order
 from sales s
@@ -44,6 +46,7 @@ join menu m
 on s.product_id = m.product_id
 group by customer_id
 order by s.order_date;
+
 			-- alternate sloution
 with menu_sales as
 	(select s.customer_id, m.product_name, s.order_date 
@@ -56,6 +59,7 @@ select customer_id, product_name as first_order from
 	from menu_sales) x
 where x.rnk = 1;
 
+
 -- What is the most purchased item on the menu and how many times was it purchased by all customers?
 select customer_id, count(product_id) as ntimes_ordered_famous_item
 from sales 
@@ -67,6 +71,7 @@ where product_id =
 	limit 1) 
 group by customer_id;
 
+
 -- Which item was the most popular for each customer?
 with temp as
 	(select customer_id, product_id, count(product_id) as ntimes_ordered 
@@ -77,8 +82,8 @@ with temp as
 select customer_id, product_id as most_purchased_prodcut, ntimes_ordered from 
 	(select *, row_number() over(partition by customer_id) as rnk
 	from temp) x
-where x.rnk = 1
-;
+where x.rnk = 1;
+
 
 -- Which item was purchased first by the customer after they became a member?
 with all_join as
@@ -95,6 +100,7 @@ from all_join
 group by customer_id
 order by order_date;
 
+
 -- Which item was purchased just before the customer became a member?
 with all_join as
 	(select s.*, m.product_name 
@@ -110,6 +116,7 @@ from all_join
 group by customer_id
 order by order_date desc;
 
+
 -- What is the total items and amount spent for each member before they became a member?
 with all_join as
 	(select s.*, m.product_name, m.price 
@@ -123,8 +130,8 @@ with all_join as
 select  customer_id, count(product_name) as items_ordered_before_membership, sum(price) as amount_spent_before_membership
 from all_join
 group by customer_id
-order by customer_id
-;
+order by customer_id;
+
 
 -- If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 with all_join as
@@ -144,6 +151,7 @@ from
 	from all_join) x
 group by customer_id
 order by customer_id;
+
 
 /* In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi. 
  how many points do customer A and B have at the end of January? */
@@ -165,5 +173,3 @@ from
 	from all_join) x
 group by customer_id
 order by customer_id;
- 
-
