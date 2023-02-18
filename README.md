@@ -1,6 +1,8 @@
 # Dannys_Diner-SQL_Case_Study
 This project is the part of **8 Week SQL Challenge by Danny Ma** (link at the end). It answers questions related to the sales of a restaurant called Danny's Diner using SQL. The files are as follows:
 
+<img src="https://user-images.githubusercontent.com/45414297/219847341-a78430b1-873d-4730-bdea-5c26e96b1f61.png" width="450" height="300">
+
 
 ***Database Creation.sql*** is the code for creating database schema and inserting values.
 
